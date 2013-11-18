@@ -22,6 +22,8 @@
 		2BB4375417CD130D0019A035 /* BKWAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BB4373317CD0AE80019A035 /* BKWAppDelegate.m */; };
 		2BB4375517CD13100019A035 /* BKWSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BB4373F17CD0AE80019A035 /* BKWSearchViewController.m */; };
 		2BB6C6F917CE364A00CCC0BA /* BKWWeatherViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BB6C6F717CE364A00CCC0BA /* BKWWeatherViewController.m */; };
+		C20C15A4183AC718005378AF /* BKWSelectDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C20C15A3183AC718005378AF /* BKWSelectDemoViewController.m */; };
+		C20C15A7183ACADD005378AF /* BKWAsyncImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C20C15A6183ACADD005378AF /* BKWAsyncImageViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -49,6 +51,10 @@
 		2BB4375217CD0D710019A035 /* BKWConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BKWConstants.h; sourceTree = "<group>"; };
 		2BB6C6F617CE364A00CCC0BA /* BKWWeatherViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BKWWeatherViewController.h; sourceTree = "<group>"; };
 		2BB6C6F717CE364A00CCC0BA /* BKWWeatherViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BKWWeatherViewController.m; sourceTree = "<group>"; };
+		C20C15A2183AC718005378AF /* BKWSelectDemoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BKWSelectDemoViewController.h; sourceTree = "<group>"; };
+		C20C15A3183AC718005378AF /* BKWSelectDemoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BKWSelectDemoViewController.m; sourceTree = "<group>"; };
+		C20C15A5183ACADD005378AF /* BKWAsyncImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BKWAsyncImageViewController.h; sourceTree = "<group>"; };
+		C20C15A6183ACADD005378AF /* BKWAsyncImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BKWAsyncImageViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -136,12 +142,32 @@
 		2BB6C6F517CE35E600CCC0BA /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				C20C15A2183AC718005378AF /* BKWSelectDemoViewController.h */,
+				C20C15A3183AC718005378AF /* BKWSelectDemoViewController.m */,
+				C20C15A8183ACE71005378AF /* AsyncImage */,
+				C20C15A9183ACE84005378AF /* JsonRequest_Parsing_Result */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		C20C15A8183ACE71005378AF /* AsyncImage */ = {
+			isa = PBXGroup;
+			children = (
+				C20C15A5183ACADD005378AF /* BKWAsyncImageViewController.h */,
+				C20C15A6183ACADD005378AF /* BKWAsyncImageViewController.m */,
+			);
+			name = AsyncImage;
+			sourceTree = "<group>";
+		};
+		C20C15A9183ACE84005378AF /* JsonRequest_Parsing_Result */ = {
+			isa = PBXGroup;
+			children = (
 				2BB4373E17CD0AE80019A035 /* BKWSearchViewController.h */,
 				2BB4373F17CD0AE80019A035 /* BKWSearchViewController.m */,
 				2BB6C6F617CE364A00CCC0BA /* BKWWeatherViewController.h */,
 				2BB6C6F717CE364A00CCC0BA /* BKWWeatherViewController.m */,
 			);
-			name = Controllers;
+			name = JsonRequest_Parsing_Result;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -215,8 +241,10 @@
 				2BB4375417CD130D0019A035 /* BKWAppDelegate.m in Sources */,
 				2BB4375517CD13100019A035 /* BKWSearchViewController.m in Sources */,
 				2B3E966917CDE93000FDA6BE /* BKWCitySearch.m in Sources */,
+				C20C15A7183ACADD005378AF /* BKWAsyncImageViewController.m in Sources */,
 				2B3E966C17CDE94900FDA6BE /* BKWForecast.m in Sources */,
 				2BB6C6F917CE364A00CCC0BA /* BKWWeatherViewController.m in Sources */,
+				C20C15A4183AC718005378AF /* BKWSelectDemoViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

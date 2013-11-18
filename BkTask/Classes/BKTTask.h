@@ -27,8 +27,10 @@
 @class BKTTaskContent;
 @protocol BKTTaskStep;
 typedef NSOperation <BKTTaskStep> BKTStepOperation;
+
 typedef void (^BKTTaskCompletion)(BKTTask *task, id output);
 typedef void (^BKTTaskFailure)(BKTTask *task, NSError *error);
+typedef void (^BKTTaskFullCompletion)(BKTTask *task, id output, NSError *error);
 
 /**
  * Asynchronous task group.
@@ -115,7 +117,7 @@ typedef void (^BKTTaskFailure)(BKTTask *task, NSError *error);
 /**
  *  Adds a block to be called on failure.
  *
- *  @param target       An object intended to be used to remove the related failure block when necessary. It is unretained but beware that the same object could be retained by the failure block.
+ *  @param target An object intended to be used to remove the related failure block when necessary. It is unretained but beware that the same object could be retained by the failure block.
  *  @param failureBlock A block called when the task fails to complete.
  *  @see \ref removeTargetFailures:
  */
@@ -181,5 +183,8 @@ typedef void (^BKTTaskFailure)(BKTTask *task, NSError *error);
  *  @return The operation queue executing the step.
  */
 - (NSOperationQueue *) stepOperationQueue;
+
+- (BOOL)isAnOptionnalStep;
+- (BOOL)isAllowedToCallSuccessBlockDuringTaskLifeTime;
 
 @end

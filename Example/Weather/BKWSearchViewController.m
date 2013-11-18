@@ -71,18 +71,21 @@
     __weak BKWSearchViewController *weakSelf = self; // We create a weak reference for self to avoid potential retain cycles with blocks
     
     [self.searchTask addTarget:self completion:^(BKTTask *task, id output) {
-        weakSelf.citySearch = output;
-        [weakSelf.tableView reloadData];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            weakSelf.citySearch = output;
+            [weakSelf.tableView reloadData];
+        });
     }];
     
     // Add a failure block.
     [self.searchTask addTarget:self failure:^(BKTTask *task, NSError *error) {
         weakSelf.citySearch = nil;
+        dispatch_async(dispatch_get_main_queue(), ^{
         [[[UIAlertView alloc] initWithTitle:@"Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"Close" otherButtonTitles:nil, nil] show];
+            });
     }];
     
     // Start the task
-    
     // Note that a task doesn't retain itself, so we use a property to retain it. Otherwise, the task would be deallocated
     // at the end of this method
     [self.searchTask start];

@@ -47,4 +47,6 @@
  */
 + (id) taskWithJSONRequest:(NSURLRequest *)aRequest;
 
++ (id) imageTaskWithRequest:(NSURLRequest *)aRequest;
+
 @end

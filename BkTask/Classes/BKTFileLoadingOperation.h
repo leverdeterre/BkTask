@@ -47,6 +47,9 @@
  *
  *  @return A file loading step ready to be added to a task.
  */
-+ (id) loadOperationWithFile:(NSURL *)fileURL;
++ (id) fileLoadingOperationWithFileURL:(NSURL *)fileURL;
+
+@property (nonatomic) BOOL isAnOptionnalStep; //Loading can fail without error 
+@property (nonatomic) BOOL isAllowedToCallSuccessBlockDuringTaskLifeTime;
 
 @end

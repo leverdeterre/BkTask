@@ -347,16 +347,40 @@ static NSString *stringFromBool(BOOL yesorno)
     self.content = stepOutput;
     
     if (nil != anError) {
+        if ([aStep respondsToSelector:@selector(isAnOptionnalStep)]) {
+            if ([aStep isAnOptionnalStep]) {
+                NSLog(@"Step %@ Did Finish with error, no problem, it's an optionnal step", aStep.class);
+
+                BKTStepOperation * nextStep;
+                nextStep = [aStep nextStep];
+                if (nil == nextStep) {
+                    [self finishAndInvokeTargets:BkTaskTargetSuccess];
+                    return;
+                } else {
+                    [self startStep:nextStep withInput:stepOutput];
+                    return;
+                }
+            }
+        }
+        
+        NSLog(@"Step %@ Did Finish with error", aStep.class);
         self.error = [self step:aStep didFailWithError:anError];
         [self finishAndInvokeTargets:BkTaskTargetFailure];
     } else if (isCancelled) {
         [self finishAndInvokeTargets:BkTaskTargetNone];
     } else {
+        NSLog(@"Step %@ Did Finish without error", aStep.class);
+
         BKTStepOperation * nextStep;
         nextStep = [aStep nextStep];
         if (nil == nextStep) {
             [self finishAndInvokeTargets:BkTaskTargetSuccess];
         } else {
+            if ([aStep respondsToSelector:@selector(isAllowedToCallSuccessBlockDuringTaskLifeTime)]) {
+                if ([aStep isAllowedToCallSuccessBlockDuringTaskLifeTime] == YES) {
+                    [self invokeTargetsForSuccess];
+                }
+            }
             [self startStep:nextStep withInput:stepOutput];
         }
     }
@@ -398,16 +422,10 @@ static NSString *stringFromBool(BOOL yesorno)
 {
     static NSOperationQueue *defaultQueue = nil;
     if (nil == defaultQueue) {
-        //For BK version when we'll stop supporting iOS 3.X
-        //static dispatch_once_t onceToken;
-        //dispatch_once(&onceToken, ^{
-        //    defaultQueue = [NSOperationQueue new];
-        //});
-        @synchronized (self) {
-            if (nil == defaultQueue) {
-                defaultQueue = [NSOperationQueue new];
-            }
-        }
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            defaultQueue = [NSOperationQueue new];
+        });
     }
     return defaultQueue;
 }

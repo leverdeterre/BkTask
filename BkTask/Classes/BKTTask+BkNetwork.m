@@ -25,6 +25,8 @@
 
 #import "BKTURLRequestOperation.h"
 #import "BKTJSONParsingOperation.h"
+#import "BKTFileLoadingOperation.h"
+#import "BKTBlockStepOperation.h"
 
 @implementation BKTTask (BkNetwork)
 
@@ -33,6 +35,44 @@
     BKTTask *newtask = [BKTTask new];
     BKTURLRequestOperation *reqOp = [[BKTURLRequestOperation alloc] initWithRequest:aRequest];
     [newtask addStep:reqOp];
+    return newtask;
+}
+
++ (id) imageTaskWithRequest:(NSURLRequest *)aRequest
+{
+    BKTTask *newtask = [BKTTask new];
+    
+    //Load image from NSDocumentDirectory (local cache)
+    NSString *imageNamed = [aRequest.URL lastPathComponent];
+    NSString* documentsPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+    NSString *localImagePath = [documentsPath stringByAppendingPathComponent:imageNamed];
+    BKTFileLoadingOperation *fileLoadingOperation = [BKTFileLoadingOperation fileLoadingOperationWithFileURL:[NSURL fileURLWithPath:localImagePath]];
+    fileLoadingOperation.isAnOptionnalStep = YES;
+    fileLoadingOperation.isAllowedToCallSuccessBlockDuringTaskLifeTime = YES; //Allow to call a first time the success block
+    [newtask addStep:fileLoadingOperation];
+    
+    //DownLoad image with URL
+    BKTURLRequestOperation *reqOp = [[BKTURLRequestOperation alloc] initWithRequest:aRequest];
+    [newtask addStep:reqOp];
+    
+    // Adding a custom operation to threat the NSData from BKTURLRequestOperation
+    BKTBlockStepOperation *writeDataStep = [BKTBlockStepOperation blockOperationWithInputKey:@"bodyData" outputKey:@"bodyData" block:^id(id input, NSError **error) {
+        
+        //Save image
+        if ([input isKindOfClass:[NSData class]]) {
+            NSData *data = input;
+            [data writeToFile:localImagePath atomically:YES];
+        }
+        
+        return input;
+    }];
+    
+    [newtask addStep:writeDataStep];
+
+    BKTFileLoadingOperation *file2LoadingOperation = [BKTFileLoadingOperation fileLoadingOperationWithFileURL:[NSURL fileURLWithPath:localImagePath]];
+    file2LoadingOperation.isAnOptionnalStep = NO;
+    [newtask addStep:file2LoadingOperation];
+    
     return newtask;
 }
 

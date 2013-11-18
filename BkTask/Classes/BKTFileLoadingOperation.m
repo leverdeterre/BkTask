@@ -28,7 +28,7 @@
 
 #pragma mark - Life Cycle
 
-+ (id)loadOperationWithFile:(NSURL *)fileURL
++ (id)fileLoadingOperationWithFileURL:(NSURL *)fileURL
 {
     BKTFileLoadingOperation *ope = [self new];
     ope.fileURL = fileURL;
